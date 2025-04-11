@@ -25,12 +25,12 @@ export default function Auth() {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userRole", data.role || formData.role); // ✅ store role
+        localStorage.setItem("userRole", data.role || formData.role);
         navigate(
           (data.role || formData.role) === "employer"
             ? "/employer"
             : "/candidate"
-        ); // ✅ redirect based on role
+        );
       } else {
         alert(data.message || "Something went wrong");
       }
