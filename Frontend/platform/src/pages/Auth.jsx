@@ -7,6 +7,7 @@ export default function Auth() {
     email: "",
     password: "",
     name: "",
+    role: "", // ✅ added
   });
   const navigate = useNavigate();
 
@@ -24,7 +25,12 @@ export default function Auth() {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("token", data.token);
-        navigate("/dashboard");
+        localStorage.setItem("userRole", data.role || formData.role); // ✅ store role
+        navigate(
+          (data.role || formData.role) === "employer"
+            ? "/employer"
+            : "/candidate"
+        ); // ✅ redirect based on role
       } else {
         alert(data.message || "Something went wrong");
       }
@@ -43,16 +49,33 @@ export default function Auth() {
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           {!isLogin && (
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
+            <>
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+
+              <select
+                value={formData.role}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
+                className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              >
+                <option value="" disabled>
+                  Select Role
+                </option>
+                <option value="candidate">Candidate</option>
+                <option value="employer">Employer</option>
+              </select>
+            </>
           )}
 
           <input
