@@ -1,16 +1,23 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const userRouter = require("./routes/user.routes")
 const connectDB = require('./config/db');
+const mongoose = require("mongoose")
 
 dotenv.config();
 connectDB();
 
+
 const app = express();
 app.use(express.json());
+
+const cors = require("cors")
+app.use(cors())
 
 // Routes
 app.use('/api/candidate', require('./routes/candidateRoutes'));
 app.use('/api/company', require('./routes/companyRoutes'));
+app.use("/user",userRouter)
 
 // Error handling
 app.use((err, req, res, next) => {

@@ -21,7 +21,7 @@ exports.submitAnswer = async (req, res) => {
 
     const submission = new Submission({
       challenge: challengeId,
-      candidate: req.user.id,
+      candidate: req.user.userId,
       answer,
     });
     await submission.save();

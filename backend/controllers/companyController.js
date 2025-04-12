@@ -4,13 +4,16 @@ const SkillMatch = require('../models/SkillMatch');
 // Post a new challenge
 exports.postChallenge = async (req, res) => {
   const { title, description, skills } = req.body;
+  console.log(req.body)
+  console.log(req.user.userId)
   try {
     const challenge = new Challenge({
       title,
       description,
       skills,
-      company: req.user.id,
+      company: req.user.userId,
     });
+
     await challenge.save();
     res.status(201).json(challenge);
   } catch (error) {

@@ -7,7 +7,7 @@ const {
 } = require('../controllers/companyController');
 
 // Protected routes for companies
-router.post('/challenges', auth('company'), postChallenge);
-router.get('/matched-candidates', auth('company'), getMatchedCandidates);
+router.post('/challenges', auth('employer'), postChallenge);
+router.get('/matched-candidates', auth('employer'), getMatchedCandidates);
 
 module.exports = router;
