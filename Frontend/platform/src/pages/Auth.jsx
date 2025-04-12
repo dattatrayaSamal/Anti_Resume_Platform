@@ -6,33 +6,41 @@ export default function Auth() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    name: "",
-    role: "", // ✅ added
+    username: "",
+    role: "",
   });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const endpoint = isLogin
-      ? "http://localhost:8000/user/login"
-      : "http://localhost:8000/user/register";
-
+      ? "https://anti-resume-platform-tvpd.onrender.com/user/login"
+      : "https://anti-resume-platform-tvpd.onrender.com/user/register";
+  
+    const payload = isLogin
+      ? { email: formData.email, password: formData.password }
+      : formData;
+  
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
-
+  
       const data = await res.json();
+      console.log("Auth response:", data); // ✅ debug
+  
       if (res.ok) {
+        const userRole = data.user?.role;
+        console.log("Role saved in localStorage:", userRole); // ✅ debug
+  
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userRole", data.role || formData.role);
-        navigate(
-          (data.role || formData.role) === "employer"
-            ? "/employer"
-            : "/candidate"
-        );
+        localStorage.setItem("userRole", userRole);
+        localStorage.setItem("userId", data.user?._id);
+  
+        navigate(userRole === "employer" ? "/employer" : "/candidate");
       } else {
         alert(data.message || "Something went wrong");
       }
@@ -41,6 +49,7 @@ export default function Auth() {
       alert("Network error");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-blue-100 px-4">
@@ -55,9 +64,9 @@ export default function Auth() {
               <input
                 type="text"
                 placeholder="Full Name"
-                value={formData.name}
+                value={formData.username}
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({ ...formData, username: e.target.value })
                 }
                 className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required

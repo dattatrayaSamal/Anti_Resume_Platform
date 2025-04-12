@@ -8,6 +8,7 @@ import Auth from "./pages/Auth";
 import DashboardLayout from "./components/DashboardLayout";
 
 import "./App.css";
+import PostChallenge from "./pages/PostChallenges";
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
         element={
           <DashboardLayout>
             <ChallengePage />
+          </DashboardLayout>
+        }
+      />
+      <Route
+        path="/employer/post-challenge"
+        element={
+          <DashboardLayout>
+            <PostChallenge />
           </DashboardLayout>
         }
       />
