@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const auth = require('../middlewares/auth');
 const {
   postChallenge,
   getMatchedCandidates,
 } = require('../controllers/companyController');
 
 // Protected routes for companies
-router.post('/challenges', auth('company'), postChallenge);
-router.get('/matched-candidates', auth('company'), getMatchedCandidates);
+router.post('/challenges', auth, postChallenge);
+router.get('/matched-candidates', auth, getMatchedCandidates);
 
 module.exports = router;
