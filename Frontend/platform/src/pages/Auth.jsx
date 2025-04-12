@@ -6,14 +6,16 @@ export default function Auth() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    username: "",
+    name: "",
     role: "", // ✅ added
   });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isLogin ? 'http://localhost:8000/user/login' : 'http://localhost:8000/user/register' ;
+    const endpoint = isLogin
+      ? "http://localhost:8000/user/login"
+      : "http://localhost:8000/user/register";
 
     try {
       const res = await fetch(endpoint, {
@@ -55,7 +57,7 @@ export default function Auth() {
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, name: e.target.value })
                 }
                 className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
